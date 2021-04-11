@@ -2,6 +2,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import * as ItemService from "./items.service";
 import { BaseItem, Item } from "./item.interface";
+import { checkJWT } from "../middleware/authz.middleware";
 
 // Router Definition
 export const itemsRouter = express.Router();
@@ -19,7 +20,7 @@ itemsRouter
       res.status(500).send(e.message);
     }
   })
-  .post(async (req: Request, res: Response, next: NextFunction) => {
+  .post(checkJWT, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const item: BaseItem = req.body;
       const newItem = await ItemService.create(item);
@@ -46,7 +47,7 @@ itemsRouter
       res.status(500).send(e.message);
     }
   })
-  .put(async (req: Request, res: Response, next: NextFunction) => {
+  .put(checkJWT, async (req: Request, res: Response, next: NextFunction) => {
     const id: number = parseInt(req.params.id, 10);
 
     try {
@@ -63,7 +64,7 @@ itemsRouter
       res.status(500).send(e.message);
     }
   })
-  .delete(async (req: Request, res: Response, next: NextFunction) => {
+  .delete(checkJWT, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: number = parseInt(req.params.id, 10);
       await ItemService.remove(id);

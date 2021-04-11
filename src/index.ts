@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // App Configuration
-// mount the middlewares
+// mount the middlewaresMENU
 app.use(cors());
 app.use(helmet());
 
